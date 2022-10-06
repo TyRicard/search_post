@@ -151,9 +151,12 @@ public class Search {
 			if( problem.goal_test(node.state) )
 				return Solution(node);
 		
-			if(node.depth < limit)
+			// Differences are expected due to the randomization of the hashsets.
+			if(node.depth < limit) {
 				frontier.insertAll(Expand(node,problem));
-			cnt ++;
+				cnt ++;
+			}
+
 		}
 
 	}
@@ -178,11 +181,12 @@ public class Search {
 			if( problem.goal_test(node.state) )
 				return Solution(node);
 			
+			// Minor Differences are expected due to the randomization of the hashsets.
 			if( !explored.contains(node.state) && (node.depth < limit)){
 				explored.add(node.state);
 				frontier.insertAll(Expand(node,problem));
+				cnt ++;
 			}
-			cnt ++;
 		}	
 	}
 
