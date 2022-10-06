@@ -23,7 +23,9 @@ public class ProblemMissionariesandCannibals extends Problem {
 		if (boatStartSide) {
 
 			// Check for 1 missionary to cross
-			if ((1 + s.endSide[0]) >= s.endSide[1])
+			if ((s.startSide[0]>0) &&
+            ((1 + s.endSide[0]) >= s.endSide[1]) && 
+            ((s.startSide[0] - 1) >= s.endSide[1]))
 			{
 				ss = new MissionariesandCannibalsState(s);
 				ss.startSide[0] -= 1;
@@ -33,7 +35,9 @@ public class ProblemMissionariesandCannibals extends Problem {
 			}
 
 			// Check for one cannibal to cross  
-			if ((1 + s.endSide[1]) <= s.endSide[0]) 
+			if ((s.startSide[1]>=1) &&
+            (s.endSide[0] >= (1 + s.endSide[1]))
+            ) 
 		 	{
 			 	ss = new MissionariesandCannibalsState(s);
 			 	ss.startSide[1] -= 1;
@@ -43,7 +47,9 @@ public class ProblemMissionariesandCannibals extends Problem {
 		 	}
 
 			// Check For one cannibal and one missionary 
-			if ((1 + s.startSide[0]) >= (1 + s.startSide[1])) 
+			if ((s.startSide[1]>=1 && s.startSide[0]>=1) &&
+            ((1 + s.endSide[0]) >= (1 + s.endSide[1]))
+            ) 
 		 	{
 			 	ss = new MissionariesandCannibalsState(s);
 				ss.startSide[0] -= 1;
@@ -55,14 +61,28 @@ public class ProblemMissionariesandCannibals extends Problem {
 			}
 			
             // Check For two cannibals
-			if ((1 + s.startSide[0]) >= (1 + s.startSide[1])) 
+			if ((s.startSide[1]>=2) &&
+            (s.endSide[0] >= (s.endSide[1]+2))) 
 		 	{
-
+                ss = new MissionariesandCannibalsState(s);
+				ss.startSide[1] -= 2;
+			 	ss.endSide[1] += 2;
+			 	ss.boatStartSide = false;
+				set.add(ss);
 			}
 
 
             // Check For two missionary 
-
+			if ((s.startSide[1]>=2) &&
+            ((s.endSide[0]+2) >= s.endSide[1]) &&
+            (s.startSide[0]-2) >= s.startSide[1]) 
+		 	{
+                ss = new MissionariesandCannibalsState(s);
+				ss.startSide[0] -= 2;
+			 	ss.endSide[0] += 2;
+			 	ss.boatStartSide = false;
+				set.add(ss);
+			}
 
 
 			// Can always move boat across
