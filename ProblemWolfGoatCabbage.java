@@ -54,10 +54,14 @@ public class ProblemWolfGoatCabbage extends Problem {
 				set.add(ss);
 			}
 			
-			// Can always move boat across
-			ss = new WolfGoatCabbageState(s);
-			ss.boatStartSide = false;
-			set.add(ss);
+			// Can move empty boat across if the goat is alone or the goat is not present
+			if ((s.startSide[1] == "G" && s.startSide[0] == "" && s.startSide[2] == "") ||
+			    (s.startSide[1] == "")) {
+					ss = new WolfGoatCabbageState(s);
+					ss.boatStartSide = false;
+					set.add(ss);
+				}
+
 		}
 
 		// End Side
@@ -95,10 +99,13 @@ public class ProblemWolfGoatCabbage extends Problem {
 				set.add(ss);
 			}
 			
-			// Can always move boat across
-			ss = new WolfGoatCabbageState(s);
-			ss.boatStartSide = true;
-			set.add(ss);
+			// Can move empty boat across if the goat is alone or the goat is not present
+			if ((s.endSide[1] == "G" && s.endSide[0] == "" && s.endSide[2] == "") ||
+				(s.endSide[1] == "")) {
+				ss = new WolfGoatCabbageState(s);
+				ss.boatStartSide = true;
+				set.add(ss);
+			}
 		}
         
         return set;
