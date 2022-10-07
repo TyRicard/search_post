@@ -5,7 +5,7 @@ public class ProblemMissionariesandCannibals extends Problem {
     
 	boolean goal_test(Object state) {
 		MissionariesandCannibalsState currState = (MissionariesandCannibalsState) state;
-		int[] startSide = {,};
+		int[] startSide = {0,0};
 		int[] endSide = {3,3};
         MissionariesandCannibalsState goal = new MissionariesandCannibalsState(startSide, endSide, false);
         return currState.equals(goal);
@@ -23,9 +23,7 @@ public class ProblemMissionariesandCannibals extends Problem {
 		if (boatStartSide) {
 
 			// Check for 1 missionary to cross
-			if ((s.startSide[0]>0) &&
-            ((1 + s.endSide[0]) >= s.endSide[1]) && 
-            ((s.startSide[0] - 1) >= s.startSide[1]))
+			if ((s.startSide[0] > 0) && ((s.startSide[0] - 1) >= s.startSide[1]))
 			{
 				ss = new MissionariesandCannibalsState(s);
 				ss.startSide[0] -= 1;
@@ -34,10 +32,30 @@ public class ProblemMissionariesandCannibals extends Problem {
 				set.add(ss);
 			}
 
+			// Check For two missionary 
+			if ((s.startSide[0] > 1) && (s.startSide[0] - 2) >= s.startSide[1]) 
+			{
+				ss = new MissionariesandCannibalsState(s);
+				ss.startSide[0] -= 2;
+				ss.endSide[0] += 2;
+				ss.boatStartSide = false;
+				set.add(ss);
+			}
+
+			// Check For one cannibal and one missionary 
+			if ((s.startSide[0] > 0 && s.startSide[1] > 0))
+			{
+				ss = new MissionariesandCannibalsState(s);
+				ss.startSide[0] -= 1;
+				ss.endSide[0] += 1;
+				ss.startSide[1] -= 1;
+				ss.endSide[1] += 1;
+				ss.boatStartSide = false;
+				set.add(ss);
+			}
+
 			// Check for one cannibal to cross  
-			if ((s.startSide[1]>=1) &&
-            (s.endSide[0] >= (1 + s.endSide[1]))
-            ) 
+			if (s.startSide[1] > 0 && ((s.endSide[1] + 1 <= s.endSide[0]) || s.endSide[0] == 0))
 		 	{
 			 	ss = new MissionariesandCannibalsState(s);
 			 	ss.startSide[1] -= 1;
@@ -45,24 +63,9 @@ public class ProblemMissionariesandCannibals extends Problem {
 			 	ss.boatStartSide = false;
 				set.add(ss);
 		 	}
-
-			// Check For one cannibal and one missionary 
-			if ((s.startSide[1]>=1 && s.startSide[0]>=1) &&
-            ((1 + s.endSide[0]) >= (1 + s.endSide[1]))
-            ) 
-		 	{
-			 	ss = new MissionariesandCannibalsState(s);
-				ss.startSide[0] -= 1;
-			 	ss.endSide[0] += 1;
-                ss.startSide[1] -= 1;
-                ss.endSide[1] += 1;
-			 	ss.boatStartSide = false;
-				set.add(ss);
-			}
 			
             // Check For two cannibals
-			if ((s.startSide[1]>=2) &&
-            (s.endSide[0] >= (s.endSide[1]+2))) 
+			if (s.startSide[1] > 1 && ((s.endSide[1] + 2 <= s.endSide[0]) || s.endSide[0] == 0)) 
 		 	{
                 ss = new MissionariesandCannibalsState(s);
 				ss.startSide[1] -= 2;
@@ -70,96 +73,62 @@ public class ProblemMissionariesandCannibals extends Problem {
 			 	ss.boatStartSide = false;
 				set.add(ss);
 			}
-
-
-            // Check For two missionary 
-			if ((s.startSide[1]>=2) &&
-            ((s.endSide[0]+2) >= s.endSide[1]) &&
-            (s.startSide[0]-2) >= s.startSide[1]) 
-		 	{
-                ss = new MissionariesandCannibalsState(s);
-				ss.startSide[0] -= 2;
-			 	ss.endSide[0] += 2;
-			 	ss.boatStartSide = false;
-				set.add(ss);
-			}
-
-
-			// Can always move boat across
-			ss = new MissionariesandCannibalsState(s);
-			ss.boatStartSide = false;
-			set.add(ss);
 		}
 
 		// End Side
 		else {
 
 			// Check for 1 missionary to cross
-			if ((s.endSide[0]>0) &&
-            ((1 + s.startSide[0]) >= s.startSide[1]) && 
-            ((s.endSide[0] - 1) >= s.endSide[1]))
+			if ((s.endSide[0] > 0) && ((s.endSide[0] - 1) >= s.endSide[1]))
 			{
 				ss = new MissionariesandCannibalsState(s);
 				ss.endSide[0] -= 1;
 				ss.startSide[0] += 1;
-				ss.boatStartSide = false;
+				ss.boatStartSide = true;
+				set.add(ss);
+			}
+
+			// Check For two missionary 
+			if ((s.endSide[0] > 1) && (s.endSide[0] - 2) >= s.endSide[1]) 
+			{
+				ss = new MissionariesandCannibalsState(s);
+				ss.endSide[0] -= 2;
+				ss.startSide[0] += 2;
+				ss.boatStartSide = true;
+				set.add(ss);
+			}
+
+			// Check For one cannibal and one missionary 
+			if ((s.endSide[0] > 0 && s.endSide[1] > 0))
+			{
+				ss = new MissionariesandCannibalsState(s);
+				ss.endSide[0] -= 1;
+				ss.startSide[0] += 1;
+				ss.endSide[1] -= 1;
+				ss.startSide[1] += 1;
+				ss.boatStartSide = true;
 				set.add(ss);
 			}
 
 			// Check for one cannibal to cross  
-			if ((s.endSide[1]>=1) &&
-            (s.startSide[0] >= (1 + s.startSide[1]))
-            ) 
-		 	{
-			 	ss = new MissionariesandCannibalsState(s);
-			 	ss.endSide[1] -= 1;
-			 	ss.startSide[1] += 1;
-			 	ss.boatStartSide = false;
-				set.add(ss);
-		 	}
-
-			// Check For one cannibal and one missionary 
-			if ((s.endSide[1]>=1 && s.endSide[0]>=1) &&
-            ((1 + s.startSide[0]) >= (1 + s.startSide[1]))
-            ) 
-		 	{
-			 	ss = new MissionariesandCannibalsState(s);
-				ss.endSide[0] -= 1;
-			 	ss.startSide[0] += 1;
-                ss.endSide[1] -= 1;
-                ss.startSide[1] += 1;
-			 	ss.boatStartSide = false;
+			if (s.endSide[1] > 0 && ((s.startSide[1] + 1 <= s.startSide[0]) || s.startSide[0] == 0))
+			{
+				ss = new MissionariesandCannibalsState(s);
+				ss.endSide[1] -= 1;
+				ss.startSide[1] += 1;
+				ss.boatStartSide = true;
 				set.add(ss);
 			}
-			
-            // Check For two cannibals
-			if ((s.endSide[1]>=2) &&
-            (s.startSide[0] >= (s.startSide[1]+2))) 
-		 	{
-                ss = new MissionariesandCannibalsState(s);
+
+			// Check For two cannibals
+			if (s.endSide[1] > 1 && ((s.startSide[1] + 2 <= s.startSide[0]) || s.startSide[0] == 0)) 
+			{
+				ss = new MissionariesandCannibalsState(s);
 				ss.endSide[1] -= 2;
-			 	ss.startSide[1] += 2;
-			 	ss.boatStartSide = false;
+				ss.startSide[1] += 2;
+				ss.boatStartSide = true;
 				set.add(ss);
 			}
-
-
-            // Check For two missionary 
-			if ((s.endSide[1]>=2) &&
-            ((s.startSide[0]+2) >= s.startSide[1]) &&
-            (s.endSide[0]-2) >= s.endSide[1]) 
-		 	{
-                ss = new MissionariesandCannibalsState(s);
-				ss.endSide[0] -= 2;
-			 	ss.startSide[0] += 2;
-			 	ss.boatStartSide = false;
-				set.add(ss);
-			}
-			
-			// Can always move boat across
-			ss = new MissionariesandCannibalsState(s);
-			ss.boatStartSide = true;
-			set.add(ss);
 		}
         
         return set;
@@ -171,13 +140,8 @@ public class ProblemMissionariesandCannibals extends Problem {
     //change 
 	public double h(Object state) {
 		MissionariesandCannibalsState s = (MissionariesandCannibalsState) state;
-		double not_crossed = 0.0;
-		for (int i = 0; i < 3; i++) {
-			if (s.endSide[i] == "") {
-				not_crossed += 1.0;
-			}
-		}
-		return not_crossed;
+		int not_crossed = s.startSide[0] + s.startSide[1];
+		return (double) not_crossed;
 	 }
 
 
@@ -192,8 +156,8 @@ public class ProblemMissionariesandCannibals extends Problem {
 		System.out.println("TreeSearch------------------------");
 		System.out.println("BreadthFirstTreeSearch:\t\t" + search.BreadthFirstTreeSearch());
 		System.out.println("UniformCostTreeSearch:\t\t" + search.UniformCostTreeSearch());
-		System.out.println("DepthFirstTreeSearch:\t\t" + search.DepthFirstTreeSearch());
-		System.out.println("GreedyBestFirstTreeSearch:\t" + search.GreedyBestFirstTreeSearch());
+		//System.out.println("DepthFirstTreeSearch:\t\t" + search.DepthFirstTreeSearch());
+		//System.out.println("GreedyBestFirstTreeSearch:\t" + search.GreedyBestFirstTreeSearch());
 		System.out.println("AstarTreeSearch:\t\t" + search.AstarTreeSearch());
 		
 		System.out.println("\n\nGraphSearch----------------------");

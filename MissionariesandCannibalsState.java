@@ -34,9 +34,15 @@ public class MissionariesandCannibalsState {
     
     public String toString() {
         if (boatStartSide) {
-            return ("B " + java.util.Arrays.toString( startSide ) + " " + java.util.Arrays.toString( endSide ) + " |");
+            String temp = "";
+            temp += "B [" + startSide[0] + "M, " + startSide[1] + "C ] ";
+            temp += "[" + endSide[0] + "M, " + endSide[1] + "C ] |";
+            return temp;
         } else {
-            return (java.util.Arrays.toString( startSide ) + " B " + java.util.Arrays.toString( endSide ) + " |");
+            String temp = "";
+            temp += "[" + startSide[0] + "M, " + startSide[1] + "C ] ";
+            temp += "B [" + endSide[0] + "M, " + endSide[1] + "C ] |";
+            return temp;
         }
     	
     }
