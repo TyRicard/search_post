@@ -154,8 +154,8 @@ public class ProblemMissionariesandCannibals extends Problem {
     //change 
 	public double h(Object state) {
 		MissionariesandCannibalsState s = (MissionariesandCannibalsState) state;
-		int not_crossed = s.startSide[0] + s.startSide[1];
-		return (double) not_crossed;
+		double not_crossed = (s.startSide[0] + s.startSide[1]) / 2;
+		return not_crossed;
 	 }
 
 
