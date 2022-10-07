@@ -1,6 +1,7 @@
 import java.util.HashSet;
 import java.util.Set;
 import java.util.*;
+import java.lang.Math;
 
 public class ProblemPancakeSorting extends Problem {
     
@@ -13,7 +14,6 @@ public class ProblemPancakeSorting extends Problem {
         			return false;
         		k++;
         	}
-        
         return true;
 	}
   
@@ -56,7 +56,19 @@ public class ProblemPancakeSorting extends Problem {
 	
 	double step_cost(Object fromState, Object toState) { return 1; }
 
-	public double h(Object state) { return 0; }
+	public double h(Object state) { 
+        StatePancakesSorting s = (StatePancakesSorting) state;
+		int number_flips = 0;
+
+        for( int x = 0; x < s.N-1 ; x ++){
+            if ((s.pankaceArray[x] - s.pankaceArray[x+1] == 1) ||
+            (Math.abs(s.pankaceArray[x] - s.pankaceArray[x+1]) > 1)
+            ){
+                number_flips ++;
+            }
+        } 
+		return (double) number_flips;
+    }
 
 
 	public static void main(String[] args) throws Exception {
@@ -67,21 +79,21 @@ public class ProblemPancakeSorting extends Problem {
 		Search search  = new Search(problem);
 		
 		System.out.println("TreeSearch------------------------");
-		System.out.println("BreadthFirstTreeSearch:\t\t" + search.BreadthFirstTreeSearch());
-		System.out.println("UniformCostTreeSearch:\t\t" + search.UniformCostTreeSearch());
-		System.out.println("DepthFirstTreeSearch:\t\t" + search.DepthFirstTreeSearch());
-		System.out.println("GreedyBestFirstTreeSearch:\t" + search.GreedyBestFirstTreeSearch());
-		System.out.println("AstarTreeSearch:\t\t" + search.AstarTreeSearch());
+		//System.out.println("BreadthFirstTreeSearch:\t\t" + search.BreadthFirstTreeSearch());
+		//System.out.println("UniformCostTreeSearch:\t\t" + search.UniformCostTreeSearch());
+		//System.out.println("DepthFirstTreeSearch:\t\t" + search.DepthFirstTreeSearch());
+		//System.out.println("GreedyBestFirstTreeSearch:\t" + search.GreedyBestFirstTreeSearch());
+		//System.out.println("AstarTreeSearch:\t\t" + search.AstarTreeSearch());
 		
 		System.out.println("\n\nGraphSearch----------------------");
-		//System.out.println("BreadthFirstGraphSearch:\t" + search.BreadthFirstGraphSearch());
-		//System.out.println("UniformCostGraphSearch:\t\t" + search.UniformCostGraphSearch());
+		System.out.println("BreadthFirstGraphSearch:\t" + search.BreadthFirstGraphSearch());
+	    System.out.println("UniformCostGraphSearch:\t\t" + search.UniformCostGraphSearch());
 		//System.out.println("DepthFirstGraphSearch:\t\t" + search.DepthFirstGraphSearch());
 		//System.out.println("GreedyBestGraphSearch:\t\t" + search.GreedyBestFirstGraphSearch());
 		System.out.println("AstarGraphSearch:\t\t" + search.AstarGraphSearch());
 		
 		System.out.println("\n\nIterativeDeepening----------------------");
 		System.out.println("IterativeDeepeningTreeSearch:\t" + search.IterativeDeepeningTreeSearch());
-		//System.out.println("IterativeDeepeningGraphSearch:\t" + search.IterativeDeepeningGraphSearch());
+		System.out.println("IterativeDeepeningGraphSearch:\t" + search.IterativeDeepeningGraphSearch());
 	}
 }
