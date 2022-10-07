@@ -170,7 +170,7 @@ public class ProblemMissionariesandCannibals extends Problem {
 		System.out.println("TreeSearch------------------------");
 		System.out.println("BreadthFirstTreeSearch:\t\t" + search.BreadthFirstTreeSearch());
 		System.out.println("UniformCostTreeSearch:\t\t" + search.UniformCostTreeSearch());
-		System.out.println("DepthFirstTreeSearch:\t\t" + search.DepthFirstTreeSearch());
+		// System.out.println("DepthFirstTreeSearch:\t\t" + search.DepthFirstTreeSearch());
 		System.out.println("GreedyBestFirstTreeSearch:\t" + search.GreedyBestFirstTreeSearch());
 		System.out.println("AstarTreeSearch:\t\t" + search.AstarTreeSearch());
 		
