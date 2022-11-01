@@ -79,7 +79,10 @@ public class GameNim extends Game {
         
         Game game = new GameNim(); 
         Search search = new Search(game);
-        int depth = 13;
+        // Depth is set to 12 for the 12 possible coins accessible to the computer
+        // at its turn. The tic-tac-toe has 8 because at least one of the squares must 
+        // be occupied.
+        int depth = 12;
         
         //needed to get human's move
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -87,25 +90,30 @@ public class GameNim extends Game {
         while (true) {
         	
         	StateNim nextState = null;
+            int take_coins = -1; // Initialize to -1 to prevent possible issues
         	
             switch ( game.currentState.player ) {
               case 1: //Human
                   
             	  //get human's move
+                  // As is the case with the Tic-Tac-Toe example, it is assumed
+                  // valid input will be provided. 
                   System.out.print("Enter your *valid* move> ");
-                  int take_coins = Integer.parseInt( in.readLine() );
+                  take_coins = Integer.parseInt( in.readLine() );
             	  
                   nextState = new StateNim( (StateNim) game.currentState);
                   nextState.player = 1;
                   nextState.rem_coins -= take_coins;
-                  System.out.println("Human: \n" + nextState);
+                  System.out.println("Player took "+ String.valueOf(take_coins) + " coins\n" + nextState);
                   break;
                   
               case 0: //Computer
-            	  
+                  // The printState is only used for printing the computer's move
+                  StateNim printState = (StateNim) game.currentState;
             	  nextState = (StateNim) search.bestSuccessorState(depth);
             	  nextState.player = 0;
-            	  System.out.println("Computer: \n" + nextState);
+                  take_coins =  printState.rem_coins - nextState.rem_coins;
+            	  System.out.println("Computer took " + String.valueOf(take_coins) + " coins\n" + nextState);
                   break;
             }
                         
@@ -125,9 +133,10 @@ public class GameNim extends Game {
 
             if ( game.isStuckState(game.currentState) ) {
                 
-                if (game.currentState.player == 1) {
+                if (game.currentState.player == 0) {
                     System.out.println("Player unnecessarily took the last coin. Computer wins!");
                 } else {
+                    // This statement should never be printed.
                     System.out.println("Computer unnecessarily took the last coin. You win!");
                 }
             	break;
